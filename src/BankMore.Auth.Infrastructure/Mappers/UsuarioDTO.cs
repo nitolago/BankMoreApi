@@ -10,12 +10,13 @@ namespace BankMore.Auth.Infrastructure.Mappers
         public string Cpf { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Senha { get; set; } = string.Empty;
+        public string SenhaHash { get; set; } = string.Empty;
 
         public Usuario ToEntity()
         {
             var cpfValueObject = new CPF(Cpf);
             var emailValueObject = new Email(Email);
-            var senhaHash = Senha;
+            var senhaHash = SenhaHash;
 
             return Usuario.Criar(Nome, cpfValueObject, emailValueObject, senhaHash);
         }

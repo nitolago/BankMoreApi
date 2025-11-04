@@ -91,11 +91,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 var app = builder.Build();
 
 // Middleware Swagger em desenvolvimento
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
+    app.UseAuthentication();
+    app.UseAuthorization();
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+ 
+//}
+
+
 
 // Middleware global de erro
 app.UseExceptionHandler(exceptionApp =>
@@ -160,6 +165,8 @@ app.UseExceptionHandler(exceptionApp =>
     });
 });
 
+
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
@@ -168,3 +175,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+

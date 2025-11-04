@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankMore.Auth.API.Controllers
 {
-   // [ApiController]
-  //  [Route("api/movimentacoes")]
-    //[Authorize]
+    [Authorize]
+    [ApiController]
+    [Route("api/movimentacoes")]
     public class MovimentacoesController : ControllerBase
     {
         private readonly IMediator _mediator;
