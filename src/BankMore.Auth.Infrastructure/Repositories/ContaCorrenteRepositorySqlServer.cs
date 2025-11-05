@@ -16,7 +16,7 @@ namespace BankMore.Auth.Infrastructure.Repositories
 
         public async Task AdicionarAsync(ContaCorrente conta)
         {
-            var sql = @"INSERT INTO contacorrente (idcontacorrente, numero, nome, ativo, senha, salt, saldo, criadoEm)
+            var sql = @"INSERT INTO ContaCorrente (idcontacorrente, numero, nome, ativo, senha, salt, saldo, criadoEm)
                         VALUES (@Id, @Numero, @Nome, @Ativo, @Senha, @Salt, @Saldo, @CriadoEm)";
 
             await _connection.ExecuteAsync(sql, new
@@ -34,7 +34,7 @@ namespace BankMore.Auth.Infrastructure.Repositories
 
         public async Task<bool> NumeroExisteAsync(int numero)
         {
-            var sql = "SELECT COUNT(1) FROM contacorrente WHERE numero = @Numero";
+            var sql = "SELECT COUNT(1) FROM ContaCorrente WHERE numero = @Numero";
             var count = await _connection.ExecuteScalarAsync<int>(sql, new { Numero = numero });
             return count > 0;
         }
@@ -45,7 +45,7 @@ namespace BankMore.Auth.Infrastructure.Repositories
                                ativo as Ativo, senha as Senha, salt as Salt, 
                                saldo as Saldo, criadoEm as CriadoEm, 
                                atualizadoEm as AtualizadoEm
-                        FROM contacorrente WHERE idcontacorrente = @Id";
+                        FROM ContaCorrente WHERE idcontacorrente = @Id";
             
             var contaDto = await _connection.QueryFirstOrDefaultAsync<dynamic>(sql, new { Id = id.ToString() });
             
@@ -66,7 +66,7 @@ namespace BankMore.Auth.Infrastructure.Repositories
                                ativo as Ativo, senha as Senha, salt as Salt, 
                                saldo as Saldo, criadoEm as CriadoEm, 
                                atualizadoEm as AtualizadoEm
-                        FROM contacorrente WHERE numero = @Numero";
+                        FROM ContaCorrente WHERE numero = @Numero";
             
             var contaDto = await _connection.QueryFirstOrDefaultAsync<dynamic>(sql, new { Numero = numero });
             
@@ -83,7 +83,7 @@ namespace BankMore.Auth.Infrastructure.Repositories
 
         public async Task AtualizarSaldoAsync(Guid id, decimal novoSaldo)
         {
-            var sql = @"UPDATE contacorrente SET saldo = @Saldo, atualizadoEm = @AtualizadoEm 
+            var sql = @"UPDATE ContaCorrente SET saldo = @Saldo, atualizadoEm = @AtualizadoEm 
                         WHERE idcontacorrente = @Id";
             await _connection.ExecuteAsync(sql, new { 
                 Id = id.ToString(), 
@@ -94,21 +94,21 @@ namespace BankMore.Auth.Infrastructure.Repositories
 
         public async Task<bool> ContaEstaAtivaAsync(Guid id)
         {
-            var sql = @"SELECT ativo FROM contacorrente WHERE idcontacorrente = @Id";
+            var sql = @"SELECT ativo FROM ContaCorrente WHERE idcontacorrente = @Id";
             var ativo = await _connection.ExecuteScalarAsync<int?>(sql, new { Id = id.ToString() });
             return ativo == 1;
         }
 
         public async Task<decimal> ObterSaldoAsync(Guid idConta)
         {
-            var sql = @"SELECT saldo FROM contacorrente WHERE idcontacorrente = @Id";
+            var sql = @"SELECT saldo FROM ContaCorrente WHERE idcontacorrente = @Id";
             var saldo = await _connection.ExecuteScalarAsync<decimal?>(sql, new { Id = idConta.ToString() });
             return saldo ?? 0;
         }
 
         public async Task AtualizarAsync(ContaCorrente conta)
         {
-            var sql = @"UPDATE contacorrente 
+            var sql = @"UPDATE ContaCorrente 
                         SET ativo = @Ativo, atualizadoEm = @AtualizadoEm 
                         WHERE idcontacorrente = @Id";
             await _connection.ExecuteAsync(sql, new { 

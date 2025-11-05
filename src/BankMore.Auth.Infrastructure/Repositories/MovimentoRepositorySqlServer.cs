@@ -16,7 +16,7 @@ namespace BankMore.Auth.Infrastructure.Repositories
 
         public async Task AdicionarAsync(Movimento movimento)
         {
-            var sql = @"INSERT INTO movimento (IdMovimento,Chave_Idempotencia, IdContaCorrente, DataMovimento, TipoMovimento, Valor)
+            var sql = @"INSERT INTO Movimento (IdMovimento,Chave_Idempotencia, IdContaCorrente, DataMovimento, TipoMovimento, Valor)
                         VALUES (@Id,@ChaveIdempotencia, @IdContaCorrente, @DataMovimento, @TipoMovimento, @Valor)";
 
                await _connection.ExecuteAsync(sql, movimento);
@@ -28,7 +28,7 @@ namespace BankMore.Auth.Infrastructure.Repositories
 
         public Task<bool> ExisteIdempotenciaAsync(string chaveIdempotencia)
         {
-            var sql = "SELECT COUNT(1) FROM movimento WHERE chave_idempotencia = @ChaveIdempotencia;";
+            var sql = "SELECT COUNT(1) FROM Movimento WHERE chave_idempotencia = @ChaveIdempotencia;";
             return _connection.ExecuteScalarAsync<bool>(sql, new { ChaveIdempotencia = chaveIdempotencia });
         }
 
@@ -38,7 +38,7 @@ namespace BankMore.Auth.Infrastructure.Repositories
         SELECT 
             COALESCE(SUM(CASE WHEN tipomovimento = 'C' THEN valor ELSE 0 END), 0) -
             COALESCE(SUM(CASE WHEN tipomovimento = 'D' THEN valor ELSE 0 END), 0)
-        FROM movimento
+        FROM Movimento
         WHERE idcontacorrente = @Id";
 
             return await _connection.ExecuteScalarAsync<decimal>(sql, new { Id = idConta });
